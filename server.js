@@ -1,4 +1,5 @@
 const express = require('express');
+const dotenv = require('dotenv').config();
 
 // graphql関連のインポート
 const { graphqlHTTP } = require('express-graphql');
@@ -18,8 +19,8 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 sequelize
-  // .sync()
-  .sync({ force: true })
+  .sync()
+  // .sync({ force: true })
   .then(result => {
     app.listen(3000);
   })

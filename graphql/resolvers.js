@@ -8,7 +8,6 @@ module.exports = {
         email: args.userInput.email,
         password: args.userInput.password,
       });
-      console.log('user =>', user);
       const newUser = await user.save();
       return {
         ...newUser,
@@ -28,11 +27,17 @@ module.exports = {
       if (!user) {
         throw new Error('ユーザーが存在しません');
       }
-      const isMatch = (args.password === user.password) ? true : false;
+
+      const isMatch = await user.comparePassword(args.password);
       if (!isMatch) {
         throw new Error('パスワードが違います');
       }
 
+      const token = await user.getSignedJwtToken();
+      return {
+        token: token,
+        userId: user.id
+      }
     } catch (err) {
       console.error(err);
     }
