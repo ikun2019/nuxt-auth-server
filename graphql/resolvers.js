@@ -19,5 +19,22 @@ module.exports = {
       console.error(err);
       throw new Error('ユーザーが作成できませんでした')
     }
+  },
+  login: async (args, req) => {
+    try {
+      const user = await User.findOne({
+        where: { email: args.email }
+      });
+      if (!user) {
+        throw new Error('ユーザーが存在しません');
+      }
+      const isMatch = (args.password === user.password) ? true : false;
+      if (!isMatch) {
+        throw new Error('パスワードが違います');
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
