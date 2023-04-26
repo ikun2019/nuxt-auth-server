@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 
 // graphql関連のインポート
 const { graphqlHTTP } = require('express-graphql');
@@ -10,6 +11,7 @@ const sequelize = require('./config/database');
 const User = require('./models/User');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 // graphqlの設定
 app.use('/graphql', graphqlHTTP({
