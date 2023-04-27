@@ -24,16 +24,19 @@ module.exports = {
       const user = await User.findOne({
         where: { email: args.email }
       });
+      console.log('user =>', user);
       if (!user) {
         throw new Error('ユーザーが存在しません');
       }
 
       const isMatch = await user.comparePassword(args.password);
+      console.log('isMatch =>', isMatch);
       if (!isMatch) {
         throw new Error('パスワードが違います');
       }
 
       const token = await user.getSignedJwtToken();
+      console.log('token =>', token);
       return {
         token: token,
         userId: user.id
