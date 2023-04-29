@@ -44,5 +44,13 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
-  }
+  },
+  user: async (args, req) => {
+    const userId = args.id;
+    console.log('userId =>', userId);
+    const user = await User.findOne({
+      where: { id: userId }
+    });
+    return user;
+  },
 }
