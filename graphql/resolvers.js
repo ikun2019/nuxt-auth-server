@@ -19,6 +19,7 @@ module.exports = {
       throw new Error('ユーザーが作成できませんでした')
     }
   },
+
   login: async (args, req) => {
     try {
       const user = await User.findOne({
@@ -39,18 +40,24 @@ module.exports = {
       console.log('token =>', token);
       return {
         token: token,
-        userId: user.id
+        user: user,
       }
     } catch (err) {
       console.error(err);
     }
   },
+
   user: async (args, req) => {
-    const userId = args.id;
-    console.log('userId =>', userId);
-    const user = await User.findOne({
-      where: { id: userId }
-    });
-    return user;
+    try {
+      const userId = args.id;
+      console.log('userId =>', userId);
+      const user = await User.findOne({
+        where: { id: userId }
+      });
+      return user;
+    } catch (err) {
+      console.error(err);
+      throw new Error('ユーザーば見つかりません');
+    }
   },
 }
